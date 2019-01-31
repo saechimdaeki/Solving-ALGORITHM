@@ -6,9 +6,10 @@ int number[10];
 
 int main()
 {
-	int save,n;
+	int n;
+	int save(0);
 	cin>>n;
-	while(true)
+	while(1)
 	{
 		number[n%10]++;
 		if(n/10==0)
