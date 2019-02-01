@@ -1,31 +1,34 @@
 #include<iostream>
-#include<cstring>
-#define len 10000
+#include <vector>
+#include<stack>
 using namespace std;
 
-class stack{
-	public:
-	int topindex=-1;
-	int arr[len];
-	
-	void push(int data)
-	{	topindex++;
-		arr[topindex]=data;
-	}	
-	int pop()
-	{
-		cout<<arr[topindex]<<endl;
-		topindex--;
-	}
-};
-
 int main()
-{	stack s;
-	int n;//명령 줄의 수
-	cin>>n; 
+{
+	int n;
+	cin>>n;
+	stack<int> s;
+	vector<char> res(2*n);
+	int next=1;
+	int count(0);
+	
 	for(int i=0; i<n; i++)
 	{
-		cin>>s.arr[i];
+		int abc;
+		cin>>abc;
+		while(s.empty()||abc!=s.top())
+		{
+			if(next>n)
+			{
+				cout<<"NO\n";
+				return 0;
+			}
+			s.push(next++);
+			res[count++]='+';
+		}
+		s.pop();
+		res[count++]='-';
 	}
-	
+	for(int i=0; i<res.size(); i++)
+	cout<<res[i]<<"\n";
 }
