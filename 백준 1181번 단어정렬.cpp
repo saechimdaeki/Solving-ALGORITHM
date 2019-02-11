@@ -2,7 +2,7 @@
 #include<algorithm>
 #include<vector>
 using namespace std;
-string abc[20000];
+string abc[20001];
 bool cmp(string &s1, string &s2)
 {
 	if(s1.length()==s2.length())
@@ -19,5 +19,5 @@ int main()
 	sort(abc+1,abc+n+1,cmp);
 	for(int i=1; i<=n; i++)
 	if(abc[i]!=abc[i+1])
-	cout<<abc[i]<<endl;
+	cout<<abc[i]<<"\n";
 }
