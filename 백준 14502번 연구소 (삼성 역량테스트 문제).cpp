@@ -6,19 +6,24 @@
 using namespace std;
 int n,m,save;
 int matrix[8][8]; int state[8][8];
+//class style{
+//	public:
+//		int x,y;
+//};
+//style st[4]={{0,1},{0,-1},{1,0},{-1,0}};
 int curx[4]={0,0,1,-1};
 int cury[4]={1,-1,0,0};
 //vector<pair<int , int > > v;
 
 void virus()
 {
-		queue<pair<int,int> > q;
 	int aftervirus[8][8];
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<m; j++)
 		aftervirus[i][j]=state[i][j];
 	}
+	queue<pair<int,int> > q;
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<m; j++)
@@ -55,10 +60,10 @@ void virus()
 	}
 	save=max(save,count123);
 }
-
-void walldfs(int n)
+////testcase 3 오류 왜 대체 왜  
+void walldfs(int num)
 {
-	if(n==3)
+	if(num==3)
 	{
 		virus();
 		return;
@@ -70,7 +75,7 @@ void walldfs(int n)
 			if(state[i][j]==0)
 			{
 				state[i][j]=1;
-				walldfs(n+1);
+				walldfs(num+1);
 				state[i][j]=0;			
 			}			
 		}
