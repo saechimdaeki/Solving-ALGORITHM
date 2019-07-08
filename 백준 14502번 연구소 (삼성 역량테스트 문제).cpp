@@ -14,7 +14,7 @@ int matrix[8][8]; int state[8][8];
 int curx[4]={0,0,1,-1};
 int cury[4]={1,-1,0,0};
 //vector<pair<int , int > > v;
-
+queue<pair<int,int> > q;
 void virus()
 {
 	int aftervirus[8][8];
@@ -23,7 +23,7 @@ void virus()
 		for(int j=0; j<m; j++)
 		aftervirus[i][j]=state[i][j];
 	}
-	queue<pair<int,int> > q;
+	
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<m; j++)
@@ -51,7 +51,7 @@ void virus()
 			}
 		}
 	}
-	int count123(0);//이녀석 위치에따라 testcase가달랏는데 코딩을 못해서 문제를몰랏다..  
+	int count123(0);  
 	for(int i=0; i<n; i++)
 	{
 		for(int j=0; j<m; j++)
@@ -60,7 +60,6 @@ void virus()
 	}
 	save=max(save,count123);
 }
-////testcase 3 오류 왜 대체 왜  
 void walldfs(int num)
 {
 	if(num==3)
