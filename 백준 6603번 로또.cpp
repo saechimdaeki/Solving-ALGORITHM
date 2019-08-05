@@ -1,41 +1,43 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
-
 using namespace std;
-
 vector<int> v;
-
-void bts(vector<int> &a, int index, int cnt)
+vector<int> arr;
+int n;
+bool abc(int a,int b)
 {
-	if(cnt==6)
-	{
-		for(int num:v)
-		cout<<num<<" ";
-		cout<<"\n";
-		return;
-	}
-	int n(a.size());
-	if(n==index)
-	return ;
-	v.push_back(a[index]);
-	bts(a,index+1,cnt+1);
-	v.pop_back();
-	bts(a,index+1,cnt);
+	return a>b;
 }
 int main()
 {
-	while(true)
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	while(cin>>n)
 	{
-		int n;
-		cin>>n;
 		if(n==0)
-		break;
-		vector<int> a(n);
+		return 0;
 		for(int i=0; i<n; i++)
-		cin>>a[i];
-		bts(a,0,0);
+		{
+			int a;
+			cin>>a;
+			v.push_back(a);
+		}
+		for(int i=0; i<6; i++)
+			arr.push_back(1);
+		for(int i=0; i<n-6; i++)
+			arr.push_back(0);
+		sort(arr.rbegin(),arr.rend());
+		do{
+			for(int i=0; i<n; i++)
+			{
+				if(arr[i]==1)
+				cout<<v[i]<<" ";
+			}
+			cout<<"\n";
+		}while(next_permutation(arr.begin(),arr.end(),abc));
 		cout<<"\n";
+		v.clear();
+		arr.clear();
 	}
-	
 }
