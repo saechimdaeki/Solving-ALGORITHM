@@ -7,3 +7,5 @@
 ### 2019.05.14 일자로 cstdio를 쓰지않고 iostream으로 ios::sync_with_stdio(false) 와 cin.tie(NULL)을 사용하여 시간을 줄여나갈 계획입니다 
 
 ### 2019. 07.25 일자로 map STL 공부 후 for(range)형태로코드를 작성해 나갈 계획입니다  
+
+&#128515;
