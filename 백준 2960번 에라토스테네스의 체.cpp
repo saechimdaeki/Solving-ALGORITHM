@@ -1,30 +1,39 @@
 #include<iostream>
-#include<cmath>
+#include<algorithm>
 using namespace std;
-
-int sosoo(int n)
+bool check[1001];
+int n,k;
+ 
+int eratos(int num)
 {
-	
-	if(n==1)
-	return 0;
-	int m=(int)sqrt(n);
-	for(int i=2; i<m; i++)
+	for(int i=2; i*i<=1001*1001; i++)
 	{
-		if(n%i==0)
-		return 0;
-		
+		if(check[i]==true)
+		{
+			check[i]=false;
+			num--;
+			if(num==0)
+			return i;
+			for(int j=i*i;j<=n; j+=i)
+			{
+				if(check[j]==true)
+				{
+					check[j]=false;
+					num--;
+					if(num==0)
+					return j;
+				}
+			}
+		}
 	}
-	return 1;
 }
 
 int main()
 {
-	int n,k;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 	cin>>n>>k;
-	for(int i=k; i<n; i++)
-	{
-		if(sosoo(i)==1)
-		cout<<i<<endl;	
-	}
-	
+	for(int i=2; i<=n; i++)
+	check[i]=true;
+	cout<<eratos(k);
 }
