@@ -24,7 +24,7 @@ int main()
 	for(int i=0; i<m; i++)
 	{
 		cin>>number>>second>>ch;
-		v.push_back(make_pair{number,second,ch});
+		v.push_back({number,second,ch});
 	}
 	sort(v.begin(),v.end(),cmp);
 	for(int i=0; i<v.size(); i++)
