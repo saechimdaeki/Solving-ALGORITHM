@@ -1,27 +1,32 @@
 #include<iostream>
-#include<algorithm>
 #include<vector>
+#include<algorithm>
+#include<cmath>
+#define endl '\n'
 using namespace std;
-vector <int > v;
-int n;
-int answer;
+vector<int > v;
+int n,ans;
 int main()
 {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 	cin>>n;
-	v.resize(n);
-	
 	for(int i=0; i<n; i++)
-	cin>>v[i];
-	
+	{
+		int a;
+		cin>>a;
+		v.push_back(a);
+	}
 	sort(v.begin(),v.end());
 	do{
-		int tmp=0;
-		for(int i=0; i<v.size()-1; i++)
+		int tmp(0);
+		for(int i=0; i<n-1; i++)
+		{
 			tmp+=abs(v[i]-v[i+1]);
-		answer=max(answer,tmp);
-		
+			ans=max(ans,tmp);
+		}
 	}while(next_permutation(v.begin(),v.end()));
-	cout<<answer;
+	cout<<ans;
+
 }
+
