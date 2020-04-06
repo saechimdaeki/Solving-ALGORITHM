@@ -1,11 +1,10 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
-#include<functional>
 using namespace std;
-
-int n,inchul;
 vector<int> v;
+vector<int> v2;
+int n,sum,tmp;
 
 int main()
 {
@@ -15,12 +14,13 @@ int main()
 	v.resize(n);
 	for(int i=0; i<n; i++)
 	cin>>v[i];
-	
 	sort(v.begin(),v.end());
 	for(int i=0; i<n; i++)
-		for(int j=0; j<=i; j++)
-			inchul+=v[j];
-			
-	cout<<inchul<<"\n";
-	
+	{
+		tmp+=v[i];
+		v2.push_back(tmp);
+	}
+	for(int i=0; i<v2.size(); i++)
+		sum+=v2[i];
+		cout<<sum;
 }
