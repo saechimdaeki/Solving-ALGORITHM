@@ -1,47 +1,42 @@
 #include<iostream>
-#include<algorithm>
-#include<vector>
 #include<queue>
 using namespace std;
-int grid[1000000];
-//bool visited[1000001];
 int f,s,g,u,d;
-queue<int> q;
-int bfs(int s1)
+int dist[1000001];
+bool visited[1000001];
+void bfs(int start)
 {
-	q.push(s1);
-	grid[s1]=1;
-	//visited[s]=true;
+	queue<int> q;
+	q.push(start);
+	visited[start]=true;
 	while(!q.empty())
 	{
-		int now(q.front());
+		int current=q.front();
 		q.pop();
-		if(now==g)
-		return grid[now];
-			if(1<=now+u&&now+u<=f &&grid[now+u]==0)
-			{
-				grid[now+u]=grid[now]+1;
-				q.push(now+u);
-			}
-			if(1<=now-d&&now-d<=f &&grid[now-d]==0)
-			{
-				grid[now-d]=grid[now]+1;
-				q.push(now-d);
-			}
+		if(1<=current-d && !visited[current-d])
+		{
+			q.push(current-d);
+			dist[current-d]=dist[current]+1;
+			visited[current-d]=true;	
+		}
+		if(current+u<=f && !visited[current+u])
+		{
+			q.push(current+u);
+			dist[current+u]=dist[current]+1;
+			visited[current+u]=true;
+		}
 	}
-	return 12345;
 }
+
 
 int main()
 {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 	cin>>f>>s>>g>>u>>d;
-	int answer(bfs(s));
-	if(answer==12345)
-	cout<<"use the stairs";
+	bfs(s);
+	if(visited[g])
+	cout<<dist[g];
 	else
-	cout<<answer-1;
-	
+	cout<<"use the stairs";
 }
-
