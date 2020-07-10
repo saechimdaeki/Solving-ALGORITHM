@@ -1,3 +1,4 @@
+
 private lateinit var arr:IntArray
 fun main(args:Array<String>)
 {
@@ -6,7 +7,6 @@ fun main(args:Array<String>)
     arr=br.readLine().split(" ").map { it.toInt() }.toIntArray()
     println(bubblesort(arr,0,n-1))
 }
-
 private fun bubblesort(array:IntArray,start:Int,end:Int):Long{
     if(start==end)
         return 0
