@@ -108,3 +108,4 @@ private class cctv(var x: Int, var y: Int, var type: Int) {
         this.dir=0
     }
 }
+
