@@ -13,7 +13,9 @@ fun main() {
     degree=Array(n+1){0}
     repeat(m){
         val input=br.readLine().split(" ").map { it.toInt() }
-        val tmp=input.slice(1..input.size-1)
+        val tmp=input.slice(1 until input.size)
+
+
         for(i in 0 until input[0]-1)
         {
             arr[tmp[i]].add(tmp[i+1])
