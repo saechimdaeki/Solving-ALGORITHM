@@ -1,53 +1,52 @@
-package boj14681kot
-
-import kotlin.math.abs
-private lateinit var broken:Array<Boolean>
-private var n =0
-private var m= 0
-fun main(args:Array<String>)
+fun main()
 {
     val br=System.`in`.bufferedReader()
     val bw=System.out.bufferedWriter()
-     n=br.readLine().toInt()
-     m=br.readLine().toInt()
-     broken=Array(10){false}
+    val n=br.readLine().toInt()
+    val m=br.readLine().toInt()
+
+    val broken=BooleanArray(10)
     if(m>0) {
-        val input=br.readLine().split(" ")
-        for (i in 0 until m) {
-            val tmp = input[i].toInt()
-            broken[tmp] = true
-        }
+        val tmp=br.readLine().split(" ").map { it.toInt() }
+        for(i in tmp.indices)
+            broken[tmp[i]]=true
     }
-    var answer=abs(n-100)
+    var answer=n-100
+    if(answer<0)
+        answer=-answer
     for(i in 0 until 1000000)
     {
-        val channel=i
-        val len= ispossible(channel)
+        val c=i
+        val len= go(c,broken)
         if(len>0)
         {
-            var press=abs(channel-n)
+            var press=c-n
+            if(press<0)
+                press=-press
             if(answer>len+press)
                 answer=len+press
         }
     }
-    bw.write(answer.toString())
-    bw.flush()
+    println(answer)
 }
-fun ispossible(x:Int):Int{
+fun go(x:Int, broke:BooleanArray):Int{
     if(x==0){
-        return if(broken[0])
-            0
-        else
-            1
+        return when {
+            broke[0] -> 0
+            else -> 1
+        }
     }
     var len=0
     var tmp=x
     while(tmp>0)
     {
-        if(broken[tmp%10])
-            return 0
-        len++
-        tmp/=10
+        when {
+            broke[tmp%10] -> return 0
+            else -> {
+                len++
+                tmp /= 10
+            }
+        }
     }
     return len
 }
