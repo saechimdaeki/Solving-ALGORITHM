@@ -1,0 +1,25 @@
+package 백준
+private lateinit var arr:IntArray
+private lateinit var answer:IntArray
+private val bw=System.out.bufferedWriter()
+fun main() {
+    val br=System.`in`.bufferedReader()
+    val (n,m)=br.readLine().split(" ").map { it.toInt() }
+    arr=br.readLine().split(" ").map { it.toInt() }.toIntArray()
+    arr.sort()
+    answer= IntArray(n)
+    dfs(0,n,m)
+    bw.flush()
+}
+private fun dfs(idx:Int,n:Int,m:Int){
+    if(idx==m){
+        for(i in 0 until m)
+            bw.write("${answer[i]} ")
+        bw.write("\n")
+        return
+    }
+    for(i in 0 until n){
+        answer[idx]=arr[i]
+        dfs(idx+1,n,m)
+    }
+}
