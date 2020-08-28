@@ -19,34 +19,32 @@ fun main() {
 }
 private fun dfs(idx:Int,first:ArrayList<Int>,second:ArrayList<Int>,n:Int):Int{
     if(idx==n){
-        when {
-            first.size!=n/2 -> return -1
-            second.size!=n/2 -> return -1
-            else -> {
-                var t1 = 0
-                var t2 = 0
-                for (i in 0 until n / 2) {
-                    for (j in 0 until n / 2) {
-                        if (i == j)
-                            continue
-                        t1 += arr[first[i]][first[j]]
-                        t2 += arr[second[i]][second[j]]
-                    }
-                }
-                return abs(t1 - t2)
+        if(first.size==0) return -1
+        if(second.size==0) return -1
+        var (t1,t2)= intArrayOf(0,0)
+        for(i in 0 until first.size){
+            for(j in 0 until first.size){
+                if(i==j) continue
+                t1+=arr[first[i]][first[j]]
             }
         }
+        for(i in 0 until second.size){
+            for(j in 0 until second.size){
+                if(i==j) continue
+                t2+=arr[second[i]][second[j]]
+            }
+        }
+        return abs(t1-t2)
     }
     var answer=-1
     first.add(idx)
     var t1=dfs(idx+1,first,second,n)
-    if(answer==-1||(t1!=-1 &&answer>t1)){
+    if(answer==-1||(t1!=-1&&answer>t1))
         answer=t1
-    }
     first.removeAt(first.size-1)
     second.add(idx)
     var t2=dfs(idx+1,first,second,n)
-    if(answer==-1||(t2!=-1&&answer>t2))
+    if(answer==-1 ||(t2!=-1 && answer>t2))
         answer=t2
     second.removeAt(second.size-1)
     return answer

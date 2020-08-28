@@ -1,94 +1,35 @@
-package boj14681kot
+package 백준
 
-private lateinit var charr:Array<Char>
-fun main(args:Array<String>)
-{
+private lateinit var arr:Array<String>
+private val list= arrayListOf<String>()
+private val visited=BooleanArray(10)
+fun main() {
     val br=System.`in`.bufferedReader()
-    val bw=System.out.bufferedWriter()
-    val k=br.readLine().toInt()
-    charr=Array(k){' '}
-    val input=br.readLine().split(" ")
-    for(i in 0 until k)
-        charr[i]=input[i][0]
-    val small=Array(k+1){0}
-    val big=Array(k+1){0}
-    for(i in 0..k)
-    {
-        small[i]=i
-        big[i]=9-i
-    }
-    do{
-        if(check(charr, small))
-            break
-    }while(next(small))
-
-    do{
-        if(check(charr,big))
-            break
-    }while (previous(big))
-    for(i in big.indices)
-        print("${big[i]}")
-    println()
-    for(i in small.indices)
-        print("${small[i]}")
-    println()
-
+    val n=br.readLine().toInt()
+    arr=br.readLine().split(" ").toTypedArray()
+    dfs(0,"",n)
+    list.sort()
+    println(list[list.size-1])
+    println(list[0])
 }
-
-private fun next(a:Array<Int>):Boolean
-{
-    var i =a.size-1
-    while (i>0 && a[i-1]>=a[i])
-        i--
-    if(i<=0)
-        return false
-    var j =a.size-1
-    while(a[j]<=a[i-1])
-        j--
-    var tmp=a[i-1]
-    a[i-1]=a[j]
-    a[j]=tmp
-    j=a.size-1
-    while(i<j)
-    {
-        tmp=a[i]
-        a[i]=a[j]
-        a[j]=tmp
-        i++
-        j--
+private fun dfs(idx:Int,number:String,n:Int){
+    if (idx==n+1){
+        list.add(number)
+        return
     }
-    return true
+    for(i in 0 ..9){
+        if(visited[i]) continue
+        if(idx==0 || check(number[idx-1],(i + '0'.toInt()).toChar(),arr[idx-1])){
+            visited[i]=true
+            dfs(idx+1,number+i.toString(),n)
+            visited[i]=false
+        }
+    }
 }
-private fun previous(a:Array<Int>):Boolean{
-    var i =a.size-1
-    while (i>0 && a[i-1]<=a[i])
-        i--
-    if(i<=0)
-        return false
-    var j =a.size-1
-    while(a[j]>=a[i-1])
-        j--
-    var tmp=a[i-1]
-    a[i-1]=a[j]
-    a[j]=tmp
-    j=a.size-1
-    while(i<j)
-    {
-        tmp=a[i]
-        a[i]=a[j]
-        a[j]=tmp
-        i++
-        j--
+private fun check(x:Char,y:Char,operation:String):Boolean{
+    return when {
+        operation=="<" && x>y -> false
+        operation==">" && x<y -> false
+        else -> true
     }
-    return true
-}
-private fun check(a:Array<Char>,b:Array<Int>):Boolean{
-    for(i in a.indices)
-    {
-        if(a[i]=='<' && b[i]>b[i+1])
-            return false
-        if(a[i]=='>' && b[i]<b[i+1])
-            return false
-    }
-    return true
 }
