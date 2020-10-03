@@ -1,6 +1,6 @@
 package 프로그래머스.섬연결하기
 
-class Solution {
+class Solution1 {
     private lateinit var parent:IntArray
     fun solution(n: Int, costs: Array<IntArray>): Int {
         var answer = 0
@@ -35,7 +35,7 @@ class Solution {
 }
 
 fun main() {
-    val solution=Solution()
+    val solution=Solution1()
     println("${solution.solution(4, arrayOf(intArrayOf(0,1,1), intArrayOf(0,2,2), intArrayOf(1,2,5), intArrayOf(1,3,1), intArrayOf(2,3,8)))}")
 
 }
