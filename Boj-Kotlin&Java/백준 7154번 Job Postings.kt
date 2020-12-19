@@ -76,11 +76,15 @@ private class Mcmf(var n: Int, var so: Int, var sink: Int){
         val q=PriorityQueue<vtx7154>()
         dist[so]=0
         q.offer(vtx7154(so, 0))
-        while (q.isNotEmpty()){
+        loop@ while (q.isNotEmpty()){
             val x=q.poll().vertex
-            if(check[x]) continue
+            when {
+                check[x] -> continue@loop
+            }
             check[x]=true
-            if(x==sink) continue
+            when (x) {
+                sink -> continue@loop
+            }
             (0 until arr[x].size).forEach { i ->
                 val temp= arr[x][i]
                 val y=temp.to
@@ -94,29 +98,33 @@ private class Mcmf(var n: Int, var so: Int, var sink: Int){
                 }
             }
         }
-        if(dist[sink]==1000000000) return false
-        (0 until n)
-                .asSequence()
-                .filter { dist[it]!=1000000000 }
-                .forEach { potent[it]+=dist[it] }
-        var x=sink
-        var c= arr[from1[x]][from2[x]].cap
-        while (from1[x]!=-1){
-            when {
-                c> arr[from1[x]][from2[x]].cap -> c= arr[from1[x]][from2[x]].cap
+        when {
+            dist[sink]==1000000000 -> return false
+            else -> {
+                (0 until n)
+                        .asSequence()
+                        .filter { dist[it] != 1000000000 }
+                        .forEach { potent[it] += dist[it] }
+                var x = sink
+                var c = arr[from1[x]][from2[x]].cap
+                while (from1[x] != -1) {
+                    when {
+                        c > arr[from1[x]][from2[x]].cap -> c = arr[from1[x]][from2[x]].cap
+                    }
+                    x = from1[x]
+                }
+                x = sink
+                while (from1[x] != -1) {
+                    val temp = arr[from1[x]][from2[x]]
+                    temp.cap -= c
+                    temp.edg.cap += c
+                    total_c += temp.cost * c
+                    x = from1[x]
+                }
+                total_F += c
+                return true
             }
-            x=from1[x]
         }
-        x=sink
-        while (from1[x]!=-1){
-            val temp= arr[from1[x]][from2[x]]
-            temp.cap-=c
-            temp.edg.cap+=c
-            total_c+=temp.cost*c
-            x=from1[x]
-        }
-        total_F+=c
-        return true
     }
     fun flow(){
         total_F=0
@@ -145,27 +153,28 @@ private class vtx7154(var vertex: Int, var distance: Int) :Comparable<vtx7154>{
 }
 
 fun main() {
-    val sc=Scanner(System.`in`)
+    val br=System.`in`.bufferedReader()
     val sat = arrayOf(intArrayOf(4, 3, 2, 1),
             intArrayOf(8, 7, 6, 5), intArrayOf(12, 11, 10, 9))
-    while (sc.hasNextInt()){
-        val m=sc.nextInt()
-        val n=sc.nextInt()
-        if(n+m==0) break
+    loop@ while (br.ready()){
+        val (m,n) =br.readLine().split(" ").map { it.toInt() }
+        when {
+            n+m==0 -> break@loop
+        }
         val mcmf=Mcmf(n+m+2,n+m,n+m+1)
         (0 until m).forEach { i ->
-            mcmf.add_to_sink(n+i,sc.nextInt(),0)
+            mcmf.add_to_sink(n+i,br.readLine().toInt(),0)
         }
-
-        for(i in 0 until n){
-            var y=sc.nextInt()
-            val ch=IntArray(4)
+        (0 until n).forEach { i ->
+            val temp=br.readLine().split(" ").map { it.toInt() }
+            var y=temp[0]
+            val ch=temp.subList(1,temp.size)
             y--
-            for(j in 0 until 4)
-                ch[j]=sc.nextInt()
             mcmf.add_from_so(i,1,0)
-            for(j in 0 until 4)
-                mcmf.add(i,n+ch[j],1,-sat[y][j])
+            (0 until 4)
+                    .forEach { j ->
+                        mcmf.add(i,n+ch[j],1,-sat[y][j])
+                    }
         }
         mcmf.flow()
         println("${-mcmf.total_c}")
