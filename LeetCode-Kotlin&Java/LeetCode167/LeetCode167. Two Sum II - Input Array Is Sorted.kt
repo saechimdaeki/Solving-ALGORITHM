@@ -14,26 +14,3 @@ class Solution {
         return intArrayOf(-1,-1)
     }
 }
-
-
-fun main() {
-    val s = Solution()
-    val solve1 = s.twoSum(intArrayOf(2,7,11,15),9)
-    for (i in solve1) {
-        print("$i ")
-    } // 1, 2
-
-    println()
-
-    val solve2 = s.twoSum(intArrayOf(2,3,4),6)
-    for (i in solve2) {
-        print("$i ")
-    } // 1,3
-
-    println()
-
-    val solve3 = s.twoSum(intArrayOf(-1,0),-1)
-    for (i in solve3) {
-        print("$i ")
-    } // 1,2
-}
