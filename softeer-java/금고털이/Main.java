@@ -1,51 +1,54 @@
-package 자바.softeer.금고털이;
+package 금고털이;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-
 public class Main {
-    public static void main(String args[]) throws IOException {
+
+    public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
+
         int w = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
 
-        List<Material> materials = new ArrayList<>();
+        List<Jewel> jewels = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int m = Integer.parseInt(st.nextToken());
-            int p = Integer.parseInt(st.nextToken());
-            materials.add(new Material(p, m));
+            int weight = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+            jewels.add(new Jewel(weight, cost));
         }
 
-        materials.sort(Comparator.comparing(m -> m.price, Comparator.reverseOrder()));
+        jewels.sort((j1, j2) -> Integer.compare(j2.cost, j1.cost));
+
         int answer = 0;
-
-        for (int i = 0; i< materials.size(); i++) {
-            Material material = materials.get(i);
-            if (w > material.weight)
-                answer += (material.price * material.weight);
-            else {
-                answer += (material.price * w);
+        for (Jewel jewel : jewels) {
+            int weight = jewel.weight;
+            int cost = jewel.cost;
+            if (w <= weight) {
+                answer += w * cost;
                 break;
+            } else {
+                answer += weight * cost;
+                w -= weight;
             }
-            w -= material.weight;
         }
+
         System.out.println(answer);
     }
-}
 
-class Material {
-    int price;
-    int weight;
+    static class Jewel {
+        int weight;
+        int cost;
 
-    public Material(int price, int weight) {
-        this.price = price;
-        this.weight = weight;
+        public Jewel(int weight, int cost) {
+            this.weight = weight;
+            this.cost = cost;
+        }
     }
-
 }
+
