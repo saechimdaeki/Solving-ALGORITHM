@@ -1,58 +1,51 @@
-package 자바.softeer.전광판;
+package 전광판;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
-
 
 public class Main {
 
+    public static void main(String[] args) {
+        // 아예 꺼짐, 0 ~ 9
+        int[][] arr = {
+                {1, 1, 1, 1, 1, 1, 0}, // 0
+                {0, 0, 1, 1, 0, 0, 0}, // 1
+                {0, 1, 1, 0, 1, 1, 1}, // 2
+                {0, 1, 1, 1, 1, 0, 1}, // 3
+                {1, 0, 1, 1, 0, 0, 1}, // 4
+                {1, 1, 0, 1, 1, 0, 1}, // 5
+                {1, 1, 0, 1, 1, 1, 1}, // 6
+                {1, 1, 1, 1, 0, 0, 0}, // 7
+                {1, 1, 1, 1, 1, 1, 1}, // 8
+                {1, 1, 1, 1, 1, 0, 1}, // 9
+                {0, 0, 0, 0, 0, 0, 0}, // 꺼짐
+        };
 
-    public static void main(String args[]) throws IOException {
-        Map<Character, String> map = new HashMap<>();
-        map.put('0', "1110111");
-        map.put('1', "0010010");
-        map.put('2', "1011101");
-        map.put('3', "1011011");
-        map.put('4', "0111010");
-        map.put('5', "1101011");
-        map.put('6', "1101111");
-        map.put('7', "1110010");
-        map.put('8', "1111111");
-        map.put('9', "1111011");
-        map.put(' ', "0000000");
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(br.readLine());
-        List<Integer> answerList = new ArrayList<>();
         while (t-- > 0) {
-            String[] input = br.readLine().split(" ");
-            String from = input[0];
-            String to = input[1];
-            int cnt = 0;
-            String fromString = String.format("%5s", from);
-            String toString = String.format("%5s", to);
-            cnt+=diff(fromString, toString, map);
+            String a = scanner.next();
+            String b = scanner.next();
+            int answer = 0;
+            if (a.length() != b.length()) {
+                String reverseA = new StringBuilder(a).reverse().toString();
+                String reverseB = new StringBuilder(b).reverse().toString();
+                int max = Math.max(a.length(), b.length());
+                for (int i = 0; i < max; i++) {
+                    int[] aChar = i >= a.length() ? arr[10] : arr[reverseA.charAt(i) - '0'];
+                    int[] bChar = i >= b.length() ? arr[10] : arr[reverseB.charAt(i) - '0'];
+                    answer += IntStream.range(0, aChar.length).map(j -> Math.abs(aChar[j] - bChar[j])).sum();
+                }
 
-            answerList.add(cnt);
+            } else {
+                for (int i = 0; i < a.length(); i++) {
+                    int[] aChar = arr[a.charAt(i) - '0'];
+                    int[] bChar = arr[b.charAt(i) - '0'];
+                    answer += IntStream.range(0, aChar.length).map(j -> Math.abs(aChar[j] - bChar[j])).sum();
+                }
+            }
+            System.out.println(answer);
         }
-        answerList.stream().forEach(System.out::println);
-    }
-
-    static int diff(String fromString, String toString, Map<Character, String> map) {
-        int answer = 0 ;
-        for (int i = 0; i < 5; i ++) {
-            char from = fromString.charAt(i);
-            char to = toString.charAt(i);
-            String fromS = map.get(from);
-            String toS = map.get(to);
-            answer += (int) IntStream.range(0, fromS.length()).filter(j -> fromS.charAt(j) != toS.charAt(j)).count();
-        }
-        return answer;
     }
 }
